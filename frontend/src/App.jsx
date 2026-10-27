@@ -2,8 +2,9 @@
 import { useEffect, useCallback, useState } from "react";
 import "./App.css";
 
-const API = "http://localhost:5000/api/problems";
-const AUTH_API = "http://localhost:5000/api/auth";
+// Deployed BIYA backend URLs
+const API = "https://biya-backend.vercel.app/api/problems";
+const AUTH_API = "https://biya-backend.vercel.app/api/auth";
 
 const categories = [
   "Personal",
@@ -63,6 +64,8 @@ function App() {
     event.preventDefault();
     setAuthLoading(true);
     setAuthError("");
+    setError("");
+    setNotice("");
 
     try {
       const endpoint =
@@ -97,7 +100,6 @@ function App() {
           email: authForm.email,
           password: "",
         });
-        setAuthError("");
         setNotice("Account created! Please log in.");
         return;
       }
@@ -114,7 +116,9 @@ function App() {
       setAuthForm({ name: "", email: "", password: "" });
       setNotice("Login successful!");
     } catch (err) {
-      setAuthError(err.message || "Authentication failed.");
+      setAuthError(
+        err.message || "Authentication failed."
+      );
     } finally {
       setAuthLoading(false);
     }
@@ -161,7 +165,9 @@ function App() {
       }
 
       if (!response.ok) {
-        throw new Error(result.message || "Could not load problems.");
+        throw new Error(
+          result.message || "Could not load problems."
+        );
       }
 
       setProblems(result.data || []);
@@ -213,7 +219,9 @@ function App() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Could not save problem.");
+        throw new Error(
+          result.message || "Could not save problem."
+        );
       }
 
       setForm(emptyForm);
@@ -263,7 +271,9 @@ function App() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Status update failed.");
+        throw new Error(
+          result.message || "Status update failed."
+        );
       }
 
       setNotice("Problem status updated!");
